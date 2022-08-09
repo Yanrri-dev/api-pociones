@@ -13,11 +13,12 @@ CREATE TABLE `pociones` (`id_pocion` INT NOT NULL AUTO_INCREMENT ,
 
 DROP TABLE IF EXISTS `ventas`;                       
 
-CREATE TABLE `ventas` (`id_cliente` INT NOT NULL , 
+CREATE TABLE `ventas` (`id_venta` INT NOT NULL AUTO_INCREMENT,
+                      `id_cliente` INT NOT NULL , 
                       `id_pocion` INT NOT NULL , 
                       `cantidad` INT NOT NULL , 
                       `fecha` DATETIME NOT NULL , 
-                      PRIMARY KEY (`id_cliente`, `id_pocion`));
+                      PRIMARY KEY (`id_venta`));
 
 ALTER TABLE `ventas` ADD CONSTRAINT `fk_cliente_venta` FOREIGN KEY (`id_cliente`) REFERENCES `clientes`(`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE; 
 
