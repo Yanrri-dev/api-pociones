@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Models\Ingrediente;
 use Illuminate\Http\Request;
 use Validator;
 
-class ClienteController extends Controller
+class IngredienteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $ingredientes = Ingrediente::all();
 
-        return response()->json($clientes);
+        return response()->json($ingredientes);
     }
 
     /**
@@ -38,50 +38,47 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $validador = Validator::make($request->all(), [
-            'nombre_cliente' => 'required',
-            'email' => 'required|email|unique:clientes',
+            'nombre_ingrediente' => 'required',
+            'precio_unidad' => 'required|numeric',
         ]);
 
         if($validador->fails()){
             return response()->json($validador->errors(), 400);
         }
 
-        $cliente = Cliente::create($request->all());
+        $ingrediente = Ingrediente::create($request->all());
 
         return response()->json([
-            'message' => 'Cliente creado con éxito',
-            'cliente' => $cliente
+            'message' => 'Ingrediente creado correctamente',
+            'ingrediente' => $ingrediente
         ], 201);
-        
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Ingrediente  $ingrediente
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $cliente = Cliente::find($id);
-        if(!$cliente){
+        $ingrediente = Ingrediente::find($id);
+        if(!$ingrediente){
             return response()->json([
-                'error' => 'Cliente no existe'
+                'error' => 'Ingrediente no existe'
             ], 404);
         }
-        return response()->json($cliente);
+        return response()->json($ingrediente);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Ingrediente  $ingrediente
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cliente $cliente)
+    public function edit(Ingrediente $ingrediente)
     {
         //
     }
@@ -90,53 +87,52 @@ class ClienteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Ingrediente  $ingrediente
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        
+
+        $ingrediente = Ingrediente::find($id);
+
+        if(!$ingrediente){
+            return response()->json([
+                'error' => 'Ingrediente no existe'
+            ], 404);
+        }
+
         $validador = Validator::make($request->all(), [
-            'nombre_cliente' => 'required',
-            'email' => 'required|email|unique:clientes',
+            'nombre_ingrediente' => 'required',
+            'precio_unidad' => 'required|numeric',
         ]);
 
         if($validador->fails()){
             return response()->json($validador->errors(), 400);
         }
 
-        $cliente = Cliente::find($id);
+        $ingrediente->update($request->all());
 
-        if(!$cliente){
-            return response()->json([
-                'error' => 'Cliente no existe'
-            ], 404);
-        }
-
-        $cliente->update($request->all());
-
-        return response()->json(['message' => 'Cliente actualizado', 'cliente' => $cliente], '200');
+        return response()->json([
+            'message' => 'Ingrediente actualizado correctamente',
+            'ingrediente' => $ingrediente
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cliente  $cliente
+     * @param  \App\Models\Ingrediente  $ingrediente
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-
-        $cliente = Cliente::find($id);
-
-        if (!$cliente) {
+        $ingrediente = Ingrediente::find($id);
+        if(!$ingrediente){
             return response()->json([
-                'error' => 'Cliente no existe'
+                'error' => 'Ingrediente no existe'
             ], 404);
         }
-
-        $cliente->delete();
-
-        return response()->json(['message' => 'Cliente eliminado','cliente' => $cliente ], '200');
+        $ingrediente->delete();
+        return response()->json(['message' => 'Ingrediente eliminado correctamente' , 'ingrediente' => $ingrediente], '200');
     }
 }

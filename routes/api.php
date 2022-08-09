@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\IngredienteController;
+use App\Http\Controllers\PocionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,8 @@ use App\Http\Controllers\ClienteController;
 Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::resource('clientes', ClienteController::class);
+    Route::resource('ingredientes', IngredienteController::class);
+    Route::resource('pociones', PocionController::class);
 
 });
 
