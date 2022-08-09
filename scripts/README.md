@@ -2,6 +2,9 @@
 
 Instalar dependencias con : composer intall
 Configurar variables de entorno de la base de datos en .env
+
+Generar clave secreta para JWT con: php artisan jwt:secret
+
 Ejecutar las migraciones por defecto que trae laravel con: php artisan migrate:refresh --seed
 Esto útlimo creara unos usuarios disponibles para hacer login y obtener un token de acceso
 También puede usarse el endpoint /api/auth/register para crear un usuario y obtener un token de acceso.
